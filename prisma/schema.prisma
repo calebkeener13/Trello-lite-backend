@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model User {
+  id             Int        @id @default(autoincrement())
+  name           String
+  email          String     @unique
+  password       String
+  isAdmin        Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  picture        String?
+  boards         Board[]
+  userCards      UserCard[]
+}
+
+model Board {
+  id            Int         @id @default(autoincrement())
+  title         String
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  lists         List[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model List {
+  id            Int         @id @default(autoincrement())
+  board         Board       @relation(fields: [boardId], references: [id])
+  boardId       Int
+  title         String
+  status        Status      @default(TODO)
+  cards         Card[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Card {
+  id            Int         @id @default(autoincrement())
+  list          List        @relation(fields: [listId], references: [id])
+  listId        Int 
+  description   String?
+  title         String
+  dueDate       DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  userCards     UserCard[]
+}
+
+model UserCard {
+  user          User        @relation(fields: [userId], references: [id])
+  card          Card        @relation(fields: [cardId], references: [id])
+  userId        Int
+  cardId        Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@id([userId, cardId])
+}
