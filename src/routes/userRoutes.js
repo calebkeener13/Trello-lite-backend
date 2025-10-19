@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 // import controller function
-const {getCurrentUser, getAllUsers} = require('../controllers/users/userController');
+const {getUserById, getAllUsers, createNewUser} = require('../controllers/users/userController');
 
-router.get('/', getCurrentUser);
-router.get('/all', getAllUsers)
+//get routes
+router.get('/:id', getUserById);
+router.get('/all', getAllUsers);
+
+//POST routes
+router.post('/', createNewUser);
 
 
 
