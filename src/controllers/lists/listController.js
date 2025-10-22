@@ -1,5 +1,5 @@
 //import prisma client
-const prisma = require('../utils/prismaClient');
+const prisma = require('../../utils/prismaClient');
 
 // actual handler functions
 const getListById = (req, res) => {

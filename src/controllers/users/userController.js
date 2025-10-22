@@ -1,5 +1,5 @@
 //import prisma client
-const prisma = require('../utils/prismaClient');
+const prisma = require('../../utils/prismaClient');
 
 // new db handlers
 async function createNewUser(req, res) {
@@ -8,6 +8,7 @@ async function createNewUser(req, res) {
 
         if (!name || !email || !password) {
             res.status(400).json({'error': 'not all required fields were inputted'});
+            return
         }
         
         const newUser = await prisma.user.create({
@@ -35,7 +36,18 @@ async function getUserById(req, res) {
         const id = parseInt(req.params.id);
 
         const user = await prisma.user.findUnique({
-            where: {id: id}
+            where: {id: id},
+            include: {
+                boards: {
+                    inlcude : {
+                        lists: {
+                            include: {
+                                cards: true
+                            }
+                        }
+                    }
+                }
+            }
         });
 
         if (user) {
