@@ -1,10 +1,15 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
 // import controllers
-const { getListById } = require('../controllers/lists/listController')
+const { getListById, getAllLists, createNewList } = require('../controllers/lists/listController');
 
-router.get('/:id', getListById)
+// GET Routes
+router.get('/:id', getListById);
+router.get('/', getAllLists);
+
+// POST Routes
+router.post('/', createNewList);
 
 
-module.exports = router
+module.exports = router;
