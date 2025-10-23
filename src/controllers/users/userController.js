@@ -38,6 +38,7 @@ async function getUserById(req, res) {
         const user = await prisma.user.findUnique({
             where: {id: id},
             include: {
+                userCards: true,
                 boards: {
                     inlcude : {
                         lists: {
@@ -58,7 +59,7 @@ async function getUserById(req, res) {
 
     } catch(error) {
         console.error(error);
-        res.status(500).send('Error fetching this specific user');
+        res.status(500).send('Internal Server Error');
     }
 };
 

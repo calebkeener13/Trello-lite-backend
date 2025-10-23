@@ -7,7 +7,9 @@ async function createNewBoard(req, res) {
         const { title, userId } = req.body;
 
         if (!title || !userId) {
-            return res.status(400).json({"Error": "Client send invalid data or didn't fill the required fields."});
+            return res.status(400).json({
+                "Error": "Client send invalid data or didn't fill the required fields."
+            });
         }
 
         const newBoard = await prisma.board.create({
@@ -21,7 +23,9 @@ async function createNewBoard(req, res) {
 
     } catch(error) {
         console.error(error)
-        return res.status(500).json({'Error': 'Internal Server error'});
+        return res.status(500).json({
+            'Error': 'Internal Server error'
+        });
     }
 }
 
@@ -65,7 +69,7 @@ async function getBoardById(req, res) {
 
         if (!desiredBoard) {
         return res.status(404).json({
-            error: "Could not find desired board",
+            "Error": "Could not find desired board",
         });
         }
 
