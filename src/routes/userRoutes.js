@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // import controller function
-const {getUserById, getAllUsers, createNewUser} = require('../controllers/users/userController');
+const {getUserById, getAllUsers, createNewUser, deleteUser } = require('../controllers/users/userController');
 
 //get routes
 router.get('/:id', getUserById);
@@ -13,7 +13,7 @@ router.post('/', createNewUser);
 
 // DELETE routes
 
-router.delete('/:id');
+router.delete('/:id', deleteUser);
 
 
 

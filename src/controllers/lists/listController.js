@@ -52,8 +52,7 @@ async function getAllLists(req, res) {
     }
 }
 
-//POST Handlers
-
+// POST Handlers
 async function createNewList(req, res) {
     try {
         const { title, boardId} = req.body;
@@ -83,4 +82,23 @@ async function createNewList(req, res) {
     }
 }
 
-module.exports = { getListById, getAllLists, createNewList };
+// DELETE Handler
+async function deleteList(req, res) {
+    try {
+        const id = req.params.id;
+
+        const deletedList = await prisma.list.delete({
+            where: {id: parseInt(id)}
+        });
+
+        res.status(200).json(deletedList);
+
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({
+            "Error": "Error deleting desired list"
+        });
+    }
+}
+
+module.exports = { getListById, getAllLists, createNewList, deleteList };
