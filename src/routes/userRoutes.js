@@ -11,6 +11,10 @@ router.get('/all', getAllUsers);
 //POST routes
 router.post('/', createNewUser);
 
+// DELETE routes
+
+router.delete('/:id');
+
 
 
 module.exports = router;

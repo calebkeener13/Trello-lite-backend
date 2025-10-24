@@ -1,7 +1,7 @@
 //import prisma client
 const prisma = require('../../utils/prismaClient');
 
-// new db handlers
+// POST Handlers
 async function createNewUser(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -30,7 +30,7 @@ async function createNewUser(req, res) {
     }
 }
 
-
+// GET Handlers
 async function getUserById(req, res) {
     try {
         const id = parseInt(req.params.id);
@@ -77,5 +77,22 @@ async function getAllUsers(req, res) {
         res.status(500).send('Error fetching this specific user');
     }
 };
+
+// DELETE Handlers
+async function deleteUser(req, res) {
+    try {
+        const id = req.params.id;
+        const deleted = await prisma.user.delete({
+            where: {id: parseInt(id)}
+        });
+
+        res.status(200).json(deleted);
+
+    } catch(error) {
+        console.error(error);
+        res.status(500).send('Error deleting user');
+    }
+}
+
 
 module.exports = {getUserById, getAllUsers, createNewUser};
