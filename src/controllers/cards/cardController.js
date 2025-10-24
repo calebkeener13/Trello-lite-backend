@@ -1,7 +1,6 @@
 const prisma = require('../../utils/prismaClient');
 
 // POST Handlers
-
 async function createNewCard(req, res) {
     try {
         const { title, listId, userId } = req.body;
@@ -49,7 +48,6 @@ async function createNewCard(req, res) {
 }
 
 // GET Handlers
-
 async function getCardById(req, res) {
     try {
         const desiredId = req.params.id;
@@ -102,4 +100,27 @@ async function getAllCards(req, res) {
     }
 }
 
-module.exports = { getCardById, getAllCards, createNewCard};
+// DELETE Handlers
+async function deleteCard(req, res) {
+    try {
+        id = parseInt(req.params.id);
+
+        const deletedCard = await prisma.card.delete({
+            where: {id: id}
+        });
+
+        const deleteUserCard = await prisma.userCard.delete({
+            where: {cardId: id}
+        });
+
+        res.status(200).json(deletedCard);
+
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({
+            "Error": "Internal Server Error"
+        })
+    }
+}
+
+module.exports = { getCardById, getAllCards, createNewCard, deleteCard };
