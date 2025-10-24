@@ -83,4 +83,23 @@ async function getBoardById(req, res) {
     }
 }
 
-module.exports = { createNewBoard, getBoardById, getAllBoards };
+// DELETE Handlers
+async function deleteBoard(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+
+        const deletedBoard = await prisma.board.delete({
+            where: {id: id}
+        });
+
+        res.status(200).json(deletedBoard);
+
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({
+            "Error": "Error deleting desired board"
+        });
+    }
+}
+
+module.exports = { createNewBoard, getBoardById, getAllBoards, deleteBoard };
