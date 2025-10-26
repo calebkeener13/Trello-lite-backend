@@ -5,8 +5,8 @@ const router = express.Router()
 const { createNewBoard, getBoardById, getAllBoards, deleteBoard } = require('../controllers/boards/boardController')
 
 // GET routes
-router.get('/all/', getAllBoards)
-router.get('/:id/', getBoardById)
+router.get('/all', getAllBoards)
+router.get('/:id', getBoardById)
 
 // POST routes
 router.post('/', createNewBoard);

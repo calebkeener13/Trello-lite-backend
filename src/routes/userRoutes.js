@@ -5,8 +5,8 @@ const router = express.Router();
 const {getUserById, getAllUsers, createNewUser, deleteUser } = require('../controllers/users/userController');
 
 //get routes
-router.get('/:id', getUserById);
 router.get('/all', getAllUsers);
+router.get('/:id', getUserById);
 
 //POST routes
 router.post('/', createNewUser);

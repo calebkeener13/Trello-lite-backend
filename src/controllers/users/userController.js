@@ -5,6 +5,7 @@ const prisma = require('../../utils/prismaClient');
 async function createNewUser(req, res) {
     try {
         const { name, email, password } = req.body;
+        const isAdmin = req.body.isAdmin === "true" || req.body.isAdmin === true;
 
         if (!name || !email || !password) {
             res.status(400).json({'error': 'not all required fields were inputted'});
@@ -15,18 +16,22 @@ async function createNewUser(req, res) {
             data: {
                 name,
                 email,
-                password
+                password,
+                isAdmin
             }
         });
 
         if (newUser) {
             const {password: _, ...safeUser} = newUser;
-            res.status(200).json(safeUser);
+            res.status(201).json(safeUser);
         }
 
     } catch(error) {
         console.error(error);
-        res.status(500).send('Error in trying to create a new user');
+        console.log("Users fetched:", users);
+        res.status(500).json({
+            "Error": "Error trying to create a new user"
+        });
     }
 }
 
@@ -40,7 +45,7 @@ async function getUserById(req, res) {
             include: {
                 userCards: true,
                 boards: {
-                    inlcude : {
+                    include : {
                         lists: {
                             include: {
                                 cards: true
@@ -66,7 +71,9 @@ async function getUserById(req, res) {
 
 async function getAllUsers(req, res) {
     try {
-        const users = await prisma.user.findMany();
+        const users = await prisma.user.findMany({
+            orderBy: {createdAt: 'desc'}
+        });
 
         if (users) {
             res.status(200).json(users);
@@ -74,7 +81,9 @@ async function getAllUsers(req, res) {
 
     } catch(error) {
         console.error(error);
-        res.status(500).send('Error fetching this specific user');
+        res.status(500).json({
+            "Error": error
+        });
     }
 };
 

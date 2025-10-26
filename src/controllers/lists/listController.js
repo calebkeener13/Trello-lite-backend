@@ -56,7 +56,7 @@ async function getAllLists(req, res) {
 async function createNewList(req, res) {
     try {
         const { title, boardId} = req.body;
-        const status = req.query.status;
+        const status = req.query.status || "TODO";
 
         if (!title || !status) {
             return res.status(400).json({
