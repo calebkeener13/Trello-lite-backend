@@ -22,5 +22,4 @@ router.post('/', createNewUser);
 router.delete('/:id', deleteUser);
 
 
-
 module.exports = router;
