@@ -1,6 +1,7 @@
 //import prisma client
 const prisma = require('../../utils/prismaClient');
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 // Register Route
 async function registerUser(req, res) {
@@ -58,6 +59,12 @@ async function loginUser(req, res) {
     try {
         const { email, password } = req.body;
 
+        if (!email || !password) {
+            res.status(400).json({
+                Error: "Invalid username or password"
+            });
+        }
+
         const desiredUser = await prisma.user.findUnique({
             where: {email: email}
         });
@@ -75,8 +82,17 @@ async function loginUser(req, res) {
             });
         }
 
-        
+        const payload = {id: desiredUser.id, name: desiredUser.name, email: desiredUser.email, isAdmin: desiredUser.isAdmin};
 
+        // signing and creating a mew token
+        const newToken = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN})
+
+        const { password: hashedPassword, ...safeUser} = desiredUser;
+        res.status(200).json({
+            message: "Login is Successful",
+            token: newToken,
+            user: safeUser
+        });
 
     } catch(error) {
         console.error(error);

@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+import dotenv from "dotenv";
+dotenv.config();
+
 // router imports
 const userRouter = require('./src/routes/userRoutes');
 const boardRouter = require('./src/routes/boardRoutes');
@@ -17,7 +20,7 @@ app.use('/list', listRouter);
 app.use('/card', cardRouter);
 app.use('/auth', authRouter);
 
-const PORT = 3010
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+const port = process.env.PORT;
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
