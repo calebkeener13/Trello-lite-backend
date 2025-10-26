@@ -15,11 +15,11 @@ const authRouter = require('./src/routes/authRoutes');
 //global middleware
 app.use(express.json());
 
+app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
 app.use('/list', listRouter);
 app.use('/card', cardRouter);
-app.use('/auth', authRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {
