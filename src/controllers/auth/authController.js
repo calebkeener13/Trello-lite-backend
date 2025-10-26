@@ -1,7 +1,7 @@
 //import prisma client
 const prisma = require('../../utils/prismaClient');
-import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Register Route
 async function registerUser(req, res) {

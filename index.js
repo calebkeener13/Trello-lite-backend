@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 
-import dotenv from "dotenv";
+// import dotenv
+const dotenv = require("dotenv");
 dotenv.config();
 
 // router imports
@@ -9,7 +10,7 @@ const userRouter = require('./src/routes/userRoutes');
 const boardRouter = require('./src/routes/boardRoutes');
 const listRouter = require('./src/routes/listRoutes');
 const cardRouter = require('./src/routes/cardRoutes');
-const authRouter = require('./src.routes/authRoutes');
+const authRouter = require('./src/routes/authRoutes');
 
 //global middleware
 app.use(express.json());
