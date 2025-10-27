@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 // import verify token
-const verifyToken = require('../middleware/authMiddleware');
+const authenticateJWT = require('../middleware/authMiddleware');
 
 // import controllers
 const { getListById, getAllLists, createNewList, deleteList } = require('../controllers/lists/listController');
 
 // global middleware for protected route
-router.use(verifyToken);
+router.use(authenticateJWT);
 
 // GET Routes
 router.get('/:id', getListById);

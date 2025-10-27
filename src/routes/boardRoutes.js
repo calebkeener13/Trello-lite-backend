@@ -2,13 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 // import verify token
-const verifyToken = require('../middleware/authMiddleware');
+const authenticateJWT = require('../middleware/authMiddleware');
 
 // import board controller
 const { createNewBoard, getBoardById, getAllBoards, deleteBoard } = require('../controllers/boards/boardController')
 
 // global middleware for protected route
-router.use(verifyToken);
+router.use(authenticateJWT);
 
 // GET routes
 router.get('/all', getAllBoards)
