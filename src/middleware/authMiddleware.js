@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken')
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers["authorization"];
-    if (!authHeader || !authHeader.startsWth("Bearer ")) {
+    console.log("Authorization Header:", authHeader);
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(403).json({
             Error: "Access Denied: No Valid Token Provided"
         });
